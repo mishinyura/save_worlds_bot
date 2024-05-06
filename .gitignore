@@ -3,3 +3,4 @@
 .venv
 database
 media
+__pycache__
