@@ -10,3 +10,8 @@ DEFAULT_COMMANDS = (
     ('help', 'Выводит справку'),
     ('word', 'Направляет рандомное слово')
 )
+
+SPEAKERS = ['Joanna', 'Justin', 'Matthew', 'Joey', 'Kimberly', 'Kendra', 'Salli']
+
+DATABASE_PATH = 'database/database.db'
+speaker = ''

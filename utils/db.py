@@ -41,6 +41,34 @@ class SessionDB:
         )
         self.conn.commit()
 
+    def get_speaker(self, user_id: int) -> list:
+        response = self.cursor.execute(
+            'SELECT sp.`id`, sp.`name` FROM `users` as us '
+            'JOIN `speakers` as sp ON sp.`id` = us.`speaker_voice` WHERE us.`tg_id` = ?',
+            [user_id]
+        )
+        return response.fetchone()
+
+    def speaker_exists(self, speaker_id: int) -> bool:
+        response = self.cursor.execute(
+            'SELECT `name` FROM `speakers` WHERE `id` = ?',
+            [speaker_id]
+        )
+        return bool(len(response.fetchall()))
+
+    def edit_speaker(self, user_id: int) -> None:
+        speaker = self.get_speaker(user_id)
+        if self.speaker_exists(speaker[0] + 1):
+            new_speaker = speaker[0] + 1
+        else:
+            new_speaker = 1
+        self.cursor.execute(
+            'UPDATE `users` SET `speaker_voice` = ? WHERE `tg_id` = ?',
+            [new_speaker, user_id]
+        )
+        self.conn.commit()
+        return self.get_speaker(user_id)[1]
+
     def get_word(self, word_id: int):
         response = self.cursor.execute(
             'SELECT * FROM `words` WHERE `id` = ?',
@@ -69,3 +97,6 @@ class SessionDB:
             ]
         )
         self.conn.commit()
+
+    def add_remember_word(self, user_id: int, word_id: int) -> None:
+        pass

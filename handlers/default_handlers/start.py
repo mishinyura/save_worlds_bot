@@ -9,10 +9,10 @@ def bot_start(message: Message):
     db = SessionDB('./database/database.db')
     if not db.user_exists(message.from_user.id):
         db.add_user(
-            message.from_user.id,
-            message.from_user.username,
-            message.from_user.first_name,
-            message.from_user.last_name
+            user_id=message.from_user.id,
+            user=message.from_user.username,
+            f_name=message.from_user.first_name,
+            l_name=message.from_user.last_name
         )
     db.close_db()
     if message.from_user.first_name.isalpha():
